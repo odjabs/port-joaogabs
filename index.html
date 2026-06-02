@@ -1,0 +1,555 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>João Gabs — Filmmaker</title>
+<meta name="description" content="João Gabs — Filmmaker. Vídeo, Motion, Direção Criativa, Captação e Edição.">
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:ital,wght@0,300;0,400;1,300&display=swap" rel="stylesheet">
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+:root {
+  --bg:      #080808;
+  --bg2:     #0f0f0f;
+  --bg3:     #161616;
+  --text:    #f0ece4;
+  --muted:   #666660;
+  --faint:   #2a2a28;
+  --accent:  #e8ff47;
+  --border:  rgba(255,255,255,0.06);
+  --display: 'Bebas Neue', sans-serif;
+  --body:    'DM Sans', sans-serif;
+}
+
+html { scroll-behavior: smooth; }
+
+body {
+  background: var(--bg);
+  color: var(--text);
+  font-family: var(--body);
+  font-size: 15px;
+  line-height: 1.6;
+  overflow-x: hidden;
+  cursor: none;
+}
+
+/* ── Cursor ── */
+#cur { width:6px; height:6px; background:var(--accent); border-radius:50%; position:fixed; pointer-events:none; z-index:9999; transform:translate(-50%,-50%); mix-blend-mode:difference; }
+#cur-ring { width:36px; height:36px; border:1px solid var(--accent); border-radius:50%; position:fixed; pointer-events:none; z-index:9998; transform:translate(-50%,-50%); opacity:.35; }
+
+/* ── Nav ── */
+nav {
+  position: fixed; top:0; left:0; right:0; z-index:100;
+  padding: 28px 52px;
+  display: flex; justify-content:space-between; align-items:center;
+  background: linear-gradient(to bottom, rgba(8,8,8,.95) 0%, transparent 100%);
+}
+.logo { font-family:var(--display); font-size:20px; letter-spacing:.12em; color:var(--text); text-decoration:none; cursor:none; }
+.nav-links { display:flex; gap:36px; list-style:none; }
+.nav-links a { color:var(--muted); text-decoration:none; font-size:11px; letter-spacing:.18em; text-transform:uppercase; transition:color .25s; cursor:none; }
+.nav-links a:hover { color:var(--text); }
+
+/* ══════════════════════════════
+   PÁGINA PRINCIPAL
+══════════════════════════════ */
+#main-page { display:block; }
+#project-page { display:none; }
+
+/* ── Hero ── */
+#hero {
+  min-height: 100vh;
+  display: flex; flex-direction:column; justify-content:flex-end;
+  padding: 0 52px 72px;
+  position: relative; overflow:hidden;
+}
+.hero-lines { position:absolute; inset:0; pointer-events:none; }
+.hero-line { position:absolute; top:0; bottom:0; width:1px; background:var(--border); }
+.hero-line:nth-child(1){left:20%;} .hero-line:nth-child(2){left:50%;} .hero-line:nth-child(3){right:20%;}
+
+.hero-tag {
+  position:absolute; top:52px; right:52px;
+  font-size:10px; letter-spacing:.22em; text-transform:uppercase; color:var(--muted);
+  writing-mode:vertical-rl; display:flex; align-items:center; gap:12px;
+}
+.hero-tag::before { content:''; display:block; width:1px; height:48px; background:linear-gradient(to bottom, transparent, var(--accent)); animation:pulse 2.5s ease infinite; }
+@keyframes pulse { 0%,100%{opacity:1} 50%{opacity:.3} }
+
+.hero-content { position:relative; z-index:2; }
+.hero-eyebrow { font-size:11px; letter-spacing:.22em; text-transform:uppercase; color:var(--accent); margin-bottom:16px; }
+.hero-title { font-family:var(--display); font-size:clamp(52px,10vw,148px); line-height:.92; color:var(--text); margin-bottom:36px; }
+.hero-title em { color:var(--accent); font-style:normal; }
+.hero-desc { max-width:520px; font-size:14px; font-weight:300; color:rgba(240,236,228,.55); line-height:1.9; border-left:1px solid var(--faint); padding-left:20px; }
+.hero-cta { margin-top:48px; display:inline-flex; align-items:center; gap:14px; color:var(--text); text-decoration:none; font-size:11px; letter-spacing:.2em; text-transform:uppercase; transition:gap .3s; cursor:none; }
+.hero-cta:hover { gap:22px; }
+.hero-cta span { display:inline-block; width:40px; height:1px; background:var(--accent); transition:width .3s; }
+.hero-cta:hover span { width:60px; }
+
+/* ── Seção base ── */
+section { padding:100px 52px; }
+.s-label { font-size:10px; letter-spacing:.25em; text-transform:uppercase; color:var(--accent); margin-bottom:56px; display:flex; align-items:center; gap:16px; }
+.s-label::after { content:''; flex:1; max-width:60px; height:1px; background:var(--faint); }
+
+/* ── Galeria ── */
+#trabalhos { background:var(--bg); }
+
+.works-grid { display:grid; grid-template-columns:repeat(12,1fr); gap:12px; }
+.work-item { overflow:hidden; position:relative; background:var(--bg3); cursor:none; }
+.work-item:nth-child(1){grid-column:1/7; aspect-ratio:16/10;}
+.work-item:nth-child(2){grid-column:7/10; aspect-ratio:9/10;}
+.work-item:nth-child(3){grid-column:10/13; aspect-ratio:9/10;}
+.work-item:nth-child(4){grid-column:1/7; aspect-ratio:16/10;}
+
+.work-ph { width:100%; height:100%; min-height:200px; display:flex; align-items:center; justify-content:center; position:relative; overflow:hidden; transition:transform .7s cubic-bezier(.25,.46,.45,.94); }
+.work-item:hover .work-ph { transform:scale(1.04); }
+.work-item img { width:100%; height:100%; object-fit:cover; display:block; transition:transform .7s cubic-bezier(.25,.46,.45,.94); }
+.work-item:hover img { transform:scale(1.04); }
+
+.wp1{background:linear-gradient(135deg,#111009 0%,#1e1a0e 100%);}
+.wp2{background:linear-gradient(160deg,#090e14 0%,#121c26 100%);}
+.wp3{background:linear-gradient(120deg,#120e09 0%,#1e1509 100%);}
+.wp4{background:linear-gradient(170deg,#090e0a 0%,#111c12 100%);}
+
+.work-ph-label { font-size:10px; letter-spacing:.12em; text-transform:uppercase; color:rgba(255,255,255,.1); }
+
+.work-overlay { position:absolute; inset:0; background:linear-gradient(to top, rgba(0,0,0,.75) 0%, transparent 55%); display:flex; flex-direction:column; align-items:flex-start; justify-content:flex-end; padding:20px 22px; opacity:0; transition:opacity .4s; }
+.work-item:hover .work-overlay { opacity:1; }
+
+.work-cat { font-size:9px; letter-spacing:.2em; text-transform:uppercase; color:var(--accent); margin-bottom:4px; }
+.work-title-card { font-family:var(--display); font-size:20px; letter-spacing:.05em; color:var(--text); }
+.work-open { margin-top:10px; font-size:10px; letter-spacing:.15em; text-transform:uppercase; color:rgba(232,255,71,.7); display:flex; align-items:center; gap:8px; }
+.work-open::after { content:''; display:inline-block; width:20px; height:1px; background:var(--accent); }
+
+/* ── Sobre ── */
+#sobre { background:var(--bg2); }
+.sobre-grid { display:grid; grid-template-columns:1fr 1fr; gap:100px; align-items:center; }
+.sobre-img { aspect-ratio:3/4; background:var(--bg3); border:1px solid var(--border); overflow:hidden; display:flex; align-items:center; justify-content:center; position:relative; }
+.sobre-img img { width:100%; height:100%; object-fit:cover; }
+.sobre-ph { width:100%; height:100%; background:linear-gradient(160deg,#0f0d09 0%,#1a1710 50%,#0d0b08 100%); display:flex; align-items:center; justify-content:center; }
+.sobre-ph span { font-size:11px; letter-spacing:.12em; color:rgba(255,255,255,.1); text-transform:uppercase; }
+.sobre-deco { position:absolute; bottom:-16px; right:-16px; width:100px; height:100px; border:1px solid rgba(232,255,71,.15); z-index:-1; }
+.sobre-name { font-family:var(--display); font-size:clamp(36px,4vw,60px); line-height:.95; margin-bottom:28px; }
+.sobre-name em { color:var(--accent); font-style:normal; }
+.sobre-text { font-size:14px; font-weight:300; color:rgba(240,236,228,.6); line-height:1.95; margin-bottom:16px; }
+.skills { display:flex; flex-wrap:wrap; gap:8px; margin-top:32px; }
+.skill { border:1px solid var(--faint); padding:5px 14px; font-size:10px; letter-spacing:.18em; text-transform:uppercase; color:var(--muted); transition:all .3s; }
+.skill:hover { border-color:var(--accent); color:var(--accent); }
+.stat-row { display:flex; gap:48px; margin-top:48px; padding-top:40px; border-top:1px solid var(--faint); }
+.stat-num { font-family:var(--display); font-size:48px; color:var(--accent); line-height:1; }
+.stat-label { font-size:10px; letter-spacing:.15em; text-transform:uppercase; color:var(--muted); margin-top:4px; }
+
+/* ── Contato ── */
+#contato { background:var(--bg); }
+.contato-grid { display:grid; grid-template-columns:1fr 1fr; gap:80px; align-items:start; }
+.contato-title { font-family:var(--display); font-size:clamp(52px,7vw,96px); line-height:.92; margin-bottom:24px; }
+.contato-title em { color:var(--accent); font-style:normal; }
+.contato-sub { font-size:13px; font-weight:300; color:var(--muted); line-height:1.9; max-width:380px; }
+.contact-links { display:flex; flex-direction:column; }
+.cl { display:flex; align-items:center; justify-content:space-between; padding:22px 0; border-bottom:1px solid var(--faint); text-decoration:none; color:var(--text); transition:padding-left .3s; cursor:none; }
+.cl:first-child { border-top:1px solid var(--faint); }
+.cl:hover { padding-left:16px; }
+.cl:hover .cl-name { color:var(--accent); }
+.cl:hover .cl-arr { transform:translate(4px,-4px); color:var(--accent); }
+.cl-type { font-size:10px; letter-spacing:.18em; text-transform:uppercase; color:var(--muted); margin-bottom:4px; }
+.cl-name { font-family:var(--display); font-size:22px; letter-spacing:.04em; transition:color .3s; }
+.cl-arr { font-size:18px; transition:all .3s; color:var(--muted); }
+
+/* ══════════════════════════════
+   PÁGINA DE PROJETO
+══════════════════════════════ */
+#project-page {
+  min-height: 100vh;
+  padding-top: 100px;
+}
+
+.proj-back {
+  display: inline-flex; align-items:center; gap:12px;
+  font-size:11px; letter-spacing:.18em; text-transform:uppercase;
+  color:var(--muted); background:none; border:none;
+  cursor:none; margin:0 52px 60px; transition:color .3s;
+}
+.proj-back:hover { color:var(--accent); }
+.proj-back::before { content:'←'; font-size:14px; transition:transform .3s; }
+.proj-back:hover::before { transform:translateX(-4px); }
+
+.proj-hero { padding:0 52px 80px; }
+.proj-eyebrow { font-size:10px; letter-spacing:.25em; text-transform:uppercase; color:var(--accent); margin-bottom:14px; }
+.proj-title { font-family:var(--display); font-size:clamp(48px,8vw,110px); line-height:.9; color:var(--text); margin-bottom:32px; }
+.proj-meta { display:flex; gap:48px; padding:28px 0; border-top:1px solid var(--faint); border-bottom:1px solid var(--faint); margin-bottom:60px; }
+.proj-meta-item { display:flex; flex-direction:column; gap:6px; }
+.proj-meta-label { font-size:10px; letter-spacing:.2em; text-transform:uppercase; color:var(--muted); }
+.proj-meta-value { font-size:14px; color:var(--text); }
+
+.proj-video-wrap {
+  width:100%; aspect-ratio:16/9;
+  background:var(--bg3);
+  overflow:hidden; margin-bottom:60px;
+  position:relative;
+}
+.proj-video-wrap iframe { position:absolute; inset:0; width:100%; height:100%; border:none; }
+
+/* placeholder quando não tem vídeo */
+.proj-video-ph { width:100%; height:100%; background:var(--bg3); display:flex; align-items:center; justify-content:center; }
+.proj-video-ph span { font-size:12px; letter-spacing:.12em; color:var(--muted); text-transform:uppercase; }
+
+.proj-desc { padding:0 52px 100px; max-width:680px; }
+.proj-desc p { font-size:15px; font-weight:300; color:rgba(240,236,228,.65); line-height:1.95; }
+
+.proj-nav { padding:40px 52px; border-top:1px solid var(--faint); display:flex; justify-content:space-between; align-items:center; }
+.proj-nav-btn { font-family:var(--display); font-size:16px; letter-spacing:.08em; color:var(--muted); background:none; border:none; cursor:none; transition:color .3s; display:flex; align-items:center; gap:10px; }
+.proj-nav-btn:hover { color:var(--accent); }
+
+/* ── Footer ── */
+footer { padding:36px 52px; border-top:1px solid var(--faint); display:flex; justify-content:space-between; align-items:center; font-size:11px; color:var(--muted); letter-spacing:.06em; }
+
+/* ── Reveal ── */
+.reveal { opacity:0; transform:translateY(28px); transition:opacity .9s ease, transform .9s ease; }
+.reveal.on { opacity:1; transform:translateY(0); }
+
+/* ── Responsive ── */
+@media(max-width:900px){
+  nav, section, footer { padding-left:24px; padding-right:24px; }
+  nav { padding-top:20px; }
+  #hero { padding:0 24px 60px; }
+  .hero-tag { display:none; }
+  .sobre-grid, .contato-grid { grid-template-columns:1fr; gap:40px; }
+  .work-item:nth-child(1){grid-column:1/13;}
+  .work-item:nth-child(2){grid-column:1/7;}
+  .work-item:nth-child(3){grid-column:7/13;}
+  .work-item:nth-child(4){grid-column:1/13;}
+  .proj-back, .proj-hero, .proj-desc, .proj-nav { padding-left:24px; padding-right:24px; }
+  .proj-meta { flex-wrap:wrap; gap:24px; }
+}
+</style>
+</head>
+<body>
+
+<div id="cur"></div>
+<div id="cur-ring"></div>
+
+<nav>
+  <a href="#" class="logo" onclick="showMain();return false;">JOÃO GABS</a>
+  <ul class="nav-links">
+    <li><a href="#trabalhos" onclick="showMain();return false;">Trabalhos</a></li>
+    <li><a href="#sobre" onclick="showMain('#sobre');return false;">Sobre</a></li>
+    <li><a href="#contato" onclick="showMain('#contato');return false;">Contato</a></li>
+  </ul>
+</nav>
+
+<!-- ══════════════════════════════
+     PÁGINA PRINCIPAL
+══════════════════════════════ -->
+<div id="main-page">
+
+  <!-- HERO -->
+  <section id="hero">
+    <div class="hero-lines">
+      <div class="hero-line"></div>
+      <div class="hero-line"></div>
+      <div class="hero-line"></div>
+    </div>
+    <div class="hero-tag">Filmmaker</div>
+    <div class="hero-content">
+      <p class="hero-eyebrow">João Gabs — Portfolio</p>
+      <h1 class="hero-title">
+        MEU ROLÊ<br>
+        É GRAVAR,<br>
+        <em>CRIAR</em><br>
+        E PRODUZIR
+      </h1>
+      <p class="hero-desc">
+        Vivo entre câmera, rua, ideia e criação.<br>
+        Audiovisual, música, fotografia, direção criativa<br>
+        e tudo aquilo que carrega sentimento, estética e verdade.
+      </p>
+      <a href="#trabalhos" class="hero-cta">Ver trabalhos <span></span></a>
+    </div>
+  </section>
+
+  <!-- GALERIA -->
+  <section id="trabalhos">
+    <div class="s-label reveal">Trabalhos</div>
+    <div class="works-grid">
+
+      <div class="work-item reveal" onclick="openProject(0)">
+        <!--
+          COMO ADICIONAR FOTO DE CAPA:
+          Apague a div .work-ph abaixo e coloque:
+          <img src="imagens/caras-como-eu.jpg">
+        -->
+        <img src="caras-como-eu.jpg" alt="Caras Como Eu">
+        <div class="work-overlay">
+          <span class="work-cat">Clipe Musical</span>
+          <span class="work-title-card">Caras Como Eu</span>
+          <span class="work-open">Ver projeto</span>
+        </div>
+      </div>
+
+      <div class="work-item reveal" onclick="openProject(1)">
+        <img src="ill-take-care-of-you.jpg" alt="I'll Take Care of You">
+        <div class="work-overlay">
+          <span class="work-cat">Motion</span>
+          <span class="work-title-card">I'll Take Care of You</span>
+          <span class="work-open">Ver projeto</span>
+        </div>
+      </div>
+
+      <div class="work-item reveal" onclick="openProject(2)">
+        <img src="contini-ice.jpg" alt="Contini Ice">
+        <div class="work-overlay">
+          <span class="work-cat">Edição Publicitária</span>
+          <span class="work-title-card">Contini Ice</span>
+          <span class="work-open">Ver projeto</span>
+        </div>
+      </div>
+
+      <div class="work-item reveal" onclick="openProject(3)">
+        <img src="hit-atras-de-hit.jpg" alt="Hit Atrás de Hit">
+        <div class="work-overlay">
+          <span class="work-cat">Reels</span>
+          <span class="work-title-card">É Hit Atrás de Hit</span>
+          <span class="work-open">Ver projeto</span>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- SOBRE -->
+  <section id="sobre">
+    <div class="s-label reveal">Sobre</div>
+    <div class="sobre-grid">
+      <div style="position:relative;" class="reveal">
+        <div class="sobre-img">
+          <!--
+            COMO ADICIONAR SUA FOTO:
+            Apague a div .sobre-ph e coloque:
+            <img src="imagens/joao.jpg">
+          -->
+          <img src="joao-gabs.jpg" alt="João Gabs">
+        </div>
+        <div class="sobre-deco"></div>
+      </div>
+      <div class="reveal">
+        <h2 class="sobre-name">JOÃO<br><em>GABS</em></h2>
+        <p class="sobre-text">Vivo entre câmera, rua, ideia e criação. Meu trabalho nasce do encontro entre audiovisual, música, fotografia, direção criativa e tudo aquilo que carrega sentimento, estética e verdade.</p>
+        <div class="skills">
+          <span class="skill">Vídeo</span>
+          <span class="skill">Motion</span>
+          <span class="skill">Direção Criativa</span>
+          <span class="skill">Captação</span>
+          <span class="skill">Edição</span>
+        </div>
+        <div class="stat-row">
+          <div>
+            <div class="stat-num">5+</div>
+            <div class="stat-label">Anos de experiência</div>
+          </div>
+          <div>
+            <div class="stat-num">4</div>
+            <div class="stat-label">Projetos em destaque</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CONTATO -->
+  <section id="contato">
+    <div class="contato-grid">
+      <div class="reveal">
+        <h2 class="contato-title">BORA<br><em>CRIAR</em><br>JUNTO?</h2>
+        <p class="contato-sub">Tem um projeto, uma ideia, uma campanha ou uma história pra contar? Me chama.</p>
+      </div>
+      <div class="contact-links reveal">
+        <a href="mailto:joaogoliveira204@gmail.com" class="cl">
+          <div>
+            <p class="cl-type">E-mail</p>
+            <p class="cl-name">joaogoliveira204@gmail.com</p>
+          </div>
+          <span class="cl-arr">↗</span>
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    <span>© 2026 João Gabs. Todos os direitos reservados.</span>
+    <span>Filmmaker — Brasil</span>
+  </footer>
+
+</div><!-- /main-page -->
+
+
+<!-- ══════════════════════════════
+     PÁGINA DE PROJETO
+══════════════════════════════ -->
+<div id="project-page">
+
+  <button class="proj-back" onclick="closeProject()">Voltar aos trabalhos</button>
+
+  <div class="proj-hero" id="proj-hero">
+    <p class="proj-eyebrow" id="proj-cat"></p>
+    <h1 class="proj-title" id="proj-title"></h1>
+    <div class="proj-meta" id="proj-meta"></div>
+  </div>
+
+  <div style="padding:0 52px;" id="proj-video-container">
+    <!-- iframe ou placeholder inserido via JS -->
+  </div>
+
+  <div class="proj-desc">
+    <p id="proj-desc-text"></p>
+  </div>
+
+  <div class="proj-nav">
+    <button class="proj-nav-btn" id="btn-prev" onclick="navigateProject(-1)">← Projeto anterior</button>
+    <button class="proj-nav-btn" id="btn-next" onclick="navigateProject(1)">Próximo projeto →</button>
+  </div>
+
+  <footer>
+    <span>© 2026 João Gabs. Todos os direitos reservados.</span>
+    <span>Filmmaker — Brasil</span>
+  </footer>
+
+</div><!-- /project-page -->
+
+
+<script>
+/* ── Cursor ── */
+const cur = document.getElementById('cur');
+const ring = document.getElementById('cur-ring');
+let mx=0,my=0,rx=0,ry=0;
+document.addEventListener('mousemove', e => { mx=e.clientX; my=e.clientY; cur.style.left=mx+'px'; cur.style.top=my+'px'; });
+(function animRing(){ rx+=(mx-rx)*.1; ry+=(my-ry)*.1; ring.style.left=rx+'px'; ring.style.top=ry+'px'; requestAnimationFrame(animRing); })();
+
+/* ── Scroll reveal ── */
+const obs = new IntersectionObserver(els => { els.forEach(e => { if(e.isIntersecting) e.target.classList.add('on'); }); }, {threshold:.08});
+document.querySelectorAll('.reveal').forEach(el => obs.observe(el));
+
+/* ── Dados dos projetos ── */
+const projects = [
+  {
+    title: 'CARAS COMO EU',
+    cat: 'Clipe Musical',
+    youtubeId: 'udk_YG8m_jQ',
+    roles: 'Direção, Operação de Câmera',
+    year: '2026',
+    desc: 'Clipe musical com direção e operação de câmera por João Gabs. Um projeto que mistura estética de rua com narrativa audiovisual intensa, capturando a essência da música com cada frame.'
+  },
+  {
+    title: "I'LL TAKE CARE OF YOU",
+    cat: 'Motion',
+    youtubeId: 'GOBm_dpLHyo',
+    roles: 'Motion Design, Coleta de Imagens',
+    year: '2025',
+    desc: 'Projeto de motion design com curadoria e coleta de imagens. Uma composição visual que transforma referências em movimento, criando uma experiência audiovisual fluida e emocional.'
+  },
+  {
+    title: 'CONTINI ICE — FORASTEIROS',
+    cat: 'Edição Publicitária',
+    youtubeId: 'rwmibYYGHM0',
+    roles: 'Junção de Imagens, Edição',
+    year: '2024',
+    desc: 'Edição publicitária para Contini Ice. Projeto focado na curadoria e junção de imagens com ritmo e identidade visual marcante, criando uma peça audiovisual com personalidade forte.'
+  },
+  {
+    title: 'É HIT ATRÁS DE HIT',
+    cat: 'Reels',
+    youtubeId: 'JY5ZzRdRllQ',
+    roles: 'Operação de Câmera, Edição, Motion',
+    year: '2024',
+    desc: 'Reels com operação de câmera, edição e motion. Um projeto dinâmico que combina captação ao vivo com pós-produção ágil, entregando conteúdo com impacto visual e ritmo certeiro.'
+  }
+];
+
+let currentProject = 0;
+
+function openProject(index) {
+  currentProject = index;
+  renderProject(index);
+  document.getElementById('main-page').style.display = 'none';
+  document.getElementById('project-page').style.display = 'block';
+  window.scrollTo({top:0, behavior:'instant'});
+}
+
+function closeProject() {
+  document.getElementById('project-page').style.display = 'none';
+  document.getElementById('main-page').style.display = 'block';
+  window.scrollTo({top:0, behavior:'instant'});
+  // Para o vídeo ao sair
+  document.getElementById('proj-video-container').innerHTML = '';
+}
+
+function renderProject(index) {
+  const p = projects[index];
+
+  document.getElementById('proj-cat').textContent = p.cat;
+  document.getElementById('proj-title').textContent = p.title;
+  document.getElementById('proj-desc-text').textContent = p.desc;
+
+  document.getElementById('proj-meta').innerHTML = `
+    <div class="proj-meta-item">
+      <span class="proj-meta-label">Categoria</span>
+      <span class="proj-meta-value">${p.cat}</span>
+    </div>
+    <div class="proj-meta-item">
+      <span class="proj-meta-label">Funções</span>
+      <span class="proj-meta-value">${p.roles}</span>
+    </div>
+    <div class="proj-meta-item">
+      <span class="proj-meta-label">Ano</span>
+      <span class="proj-meta-value">${p.year}</span>
+    </div>
+  `;
+
+  // Embed do YouTube
+  const videoContainer = document.getElementById('proj-video-container');
+  if (p.youtubeId) {
+    videoContainer.innerHTML = `
+      <div class="proj-video-wrap">
+        <iframe
+          src="https://www.youtube.com/embed/${p.youtubeId}?rel=0&modestbranding=1"
+          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+          allowfullscreen>
+        </iframe>
+      </div>`;
+  } else {
+    videoContainer.innerHTML = `
+      <div class="proj-video-wrap">
+        <div class="proj-video-ph"><span>Vídeo em breve</span></div>
+      </div>`;
+  }
+
+  // Botões de navegação
+  document.getElementById('btn-prev').style.visibility = index === 0 ? 'hidden' : 'visible';
+  document.getElementById('btn-next').style.visibility = index === projects.length-1 ? 'hidden' : 'visible';
+}
+
+function navigateProject(dir) {
+  const next = currentProject + dir;
+  if (next >= 0 && next < projects.length) {
+    currentProject = next;
+    // Para o vídeo atual antes de trocar
+    document.getElementById('proj-video-container').innerHTML = '';
+    renderProject(currentProject);
+    window.scrollTo({top:0, behavior:'smooth'});
+  }
+}
+
+function showMain(anchor) {
+  document.getElementById('project-page').style.display = 'none';
+  document.getElementById('main-page').style.display = 'block';
+  document.getElementById('proj-video-container').innerHTML = '';
+  if (anchor) {
+    setTimeout(() => {
+      const el = document.querySelector(anchor);
+      if (el) el.scrollIntoView({behavior:'smooth'});
+    }, 50);
+  } else {
+    window.scrollTo({top:0, behavior:'instant'});
+  }
+}
+</script>
+</body>
+</html>
